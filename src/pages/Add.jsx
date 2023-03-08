@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Add = () => {
   const [gift, setGift] = useState({
     title: "",
-    desc: "",
     price: null,
-    cover: "",
+    img: "",
+    author: "",
+    amount: null,
   });
   const [error,setError] = useState(false)
 
@@ -17,16 +18,31 @@ const Add = () => {
     setGift((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleClick = async (e) => {
+//   const handleClick = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await fetch("http://localhost:9292/products", gift);
+//       navigate("/");
+//     } catch (err) {
+//       console.log(err);
+//       setError(true)
+//     }
+//   };
+
+ function handleClick(e){
     e.preventDefault();
-    try {
-      await fetch("http://localhost:9292/products", gift);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError(true)
+        fetch(`http://localhost:9292/products/`,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(gift)
+        })
+            .then(r => r.json())
+            .then(data => setGift(data))
+        
     }
-  };
+    
 
   return (
     <div className="form">
@@ -41,7 +57,7 @@ const Add = () => {
         rows={5}
         type="text"
         placeholder="Gift desc"
-        name="desc"
+        name="author"
         onChange={handleChange}
       />
       <input
@@ -51,14 +67,20 @@ const Add = () => {
         onChange={handleChange}
       />
       <input
+        type="number"
+        placeholder="Gift amount"
+        name="amount"
+        onChange={handleChange}
+      />
+      <input
         type="text"
-        placeholder=" cover"
-        name="cover"
+        placeholder="image"
+        name="img"
         onChange={handleChange}
       />
       <button onClick={handleClick}>Add</button>
       {error && "Something went wrong!"}
-      <Link to="/">See all giftss</Link>
+      <Link to="/">See all gifts</Link>
     </div>
   );
 };
