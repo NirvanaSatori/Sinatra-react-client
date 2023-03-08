@@ -1,29 +1,36 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Gifts = () => {
   const [gifts, setGifts] = useState([]);
 
-  useEffect(() => {
-    const fetchAllGifts = async () => {
-      try {
-        const res = await axios.get("http://localhost:8800/Gifts");
-        setGifts(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchAllGifts();
-  }, []);
+  useEffect(()=> {
+    fetch("http://localhost:9292/products")
+    .then(res => res.json())
+    .then(data=> setGifts(data))
+    console.log(gifts)
+  },[])
 
-  console.log(gifts);
+//   useEffect(() => {
+//     const fetchAllGifts = async () => {
+//       try {
+//         const res = await fetch("http://localhost:9292/products");
+//         setGifts(res);
+//         console.log(res)
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     };
+//     fetchAllGifts();
+//   }, []);
+
+ ;
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8800/Gifts/${id}`);
+      await fetch(`http://localhost:9292/products/${id}`);
       window.location.reload()
     } catch (err) {
       console.log(err);
@@ -32,13 +39,13 @@ const Gifts = () => {
 
   return (
     <div>
-      <h1>Lama Gift Shop</h1>
-      <div className="Gifts">
-        {Gifts.map((gift) => (
-          <div key={gift.id} className="Gift">
-            <img src={gift.cover} alt="" />
+      <h1>Dukani Gift Shop</h1>
+      <div className="books">
+        {gifts.map((gift) => (
+          <div key={gift.id} className="book">
+            <img src={gift.img} alt="" />
             <h2>{gift.title}</h2>
-            <p>{gift.desc}</p>
+            <p>{gift.author}</p>
             <span>${gift.price}</span>
             <button className="delete" onClick={() => handleDelete(gift.id)}>Delete</button>
             <button className="update">
