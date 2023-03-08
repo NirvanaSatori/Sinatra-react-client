@@ -4,16 +4,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const Update = () => {
   const [gift, setGift] = useState({
     title: "",
-    desc: "",
+    author: "",
     price: null,
-    cover: "",
+    img: "",
+    amount: null
   });
-  const [error,setError] = useState(false)
+//   const [error,setError] = useState(false)
 
-  const location = useLocation();
-  const navigate = useNavigate();
+//   const location = useLocation();
+//   const navigate = useNavigate();
 
-  const giftId = location.pathname.split("/")[2];
+  const id= gift.id
 
   const handleChange = (e) => {
     setGift((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,20 +22,22 @@ const Update = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-        fetch("http://localhost:9292/products")
-        .then(res => res.json())
-        .then(data=> console.log(data))
-
-    
-
-    // try {
-    //   await fetch(`http://localhost:9292/products/${giftId}`, gift);
-    //   navigate("/");
-    // } catch (err) {
-    //   console.log(err);
-    //   setError(true);
-    // }
-  };
+        fetch(`http://localhost:9292/products${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ gift: { 
+                    title: title,
+                    author: "",
+                    price: null,
+                    img: "",
+                    amount: null
+            } })
+        })
+            .then(r => r.json())
+            .then(data => console.log(data))
+    }
 
   return (
     <div className="form">

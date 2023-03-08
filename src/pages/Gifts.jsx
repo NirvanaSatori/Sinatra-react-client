@@ -13,37 +13,14 @@ const Gifts = () => {
     console.log(gifts)
   },[])
 
-//   useEffect(() => {
-//     const fetchAllGifts = async () => {
-//       try {
-//         const res = await fetch("http://localhost:9292/products");
-//         setGifts(res);
-//         console.log(res)
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-//     fetchAllGifts();
-//   }, []);
-
  
  function handleDelete(id){
     // persist changes on server
     fetch(`http://localhost:9292/products/${id}`, {
         method: "DELETE"
     })
-    // then use onDeleteTodo to remove todo from state
     }
 
-
-//   const handleDelete = async (id) => {
-//     try {
-//       await fetch(`http://localhost:9292/products/${id}`);
-//       window.location.reload()
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
 
   return (
     <div>
