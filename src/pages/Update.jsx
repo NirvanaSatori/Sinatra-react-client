@@ -29,10 +29,10 @@ const Update = () => {
             },
             body: JSON.stringify({ gift: { 
                     title: title,
-                    author: "",
-                    price: null,
-                    img: "",
-                    amount: null
+                    author: author,
+                    price: price,
+                    img: img,
+                    amount: amount
             } })
         })
             .then(r => r.json())
